@@ -14,6 +14,7 @@ const openai = new OpenAIApi(configuration)
 
 const handler: Handler = async (req, res) => {
 	try {
+		console.log(process.env.OPENAI_API_KEY)
 		if (req.method === "POST") {
 			const { messages } = req.body
 
