@@ -16,7 +16,19 @@ const handler: Handler = async (req, res) => {
 	try {
 		console.log(process.env.OPENAI_API_KEY)
 		if (req.method === "POST") {
+			const apiKey = process.env.OPENAI_API_KEY
+
 			const { messages } = req.body
+
+			if (!apiKey) {
+				res.status(401).json({ message: "No apiKey provided." })
+				return
+			}
+
+			if (!messages) {
+				res.status(400).json({ message: "No messages provided." })
+				return
+			}
 
 			const chatGpt = await openai.createChatCompletion({
 				model: "gpt-3.5-turbo",
