@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
@@ -12,12 +12,13 @@ interface Message {
 }
 
 export default function Home() {
+	const prompt = process.env.NEXT_PUBLIC_OPENAI_SYSTEM_PROMPT
+
 	const [message, setMessage] = useState("")
 	const [messages, setMessages] = useState<any>([
 		{
 			role: "system",
-			content:
-				"Ich bin ein Immobilienverwalter der allen Kunden bei Fragen zur Seite steht. Außerdem helfe ich bei der Suche nach einer passenden Immobilie.",
+			content: prompt,
 		},
 	])
 	const [status, setStatus] = useState("idle")
@@ -49,6 +50,11 @@ export default function Home() {
 			})
 	}
 
+	useEffect(() => {
+		var objDiv = document.getElementById("chat_div")
+		if (objDiv) objDiv.scrollTop = objDiv.scrollHeight
+	}, [messages])
+
 	return (
 		<>
 			<Head>
@@ -60,7 +66,9 @@ export default function Home() {
 			<main className="">
 				<div className="bg-gray-700 w-full h-screen text-white font-medium">
 					<div className="flex flex-col w-full h-full">
-						<div className="flex flex-row w-full h-[80%] overflow-x-hidden overflow-scroll gap-2">
+						<div
+							id="chat_div"
+							className="flex flex-row w-full h-[80%] overflow-x-hidden  overflow-scroll gap-2">
 							<div className="w-full flex h-full flex-col gap-4 p-2">
 								{messages.length > 0 &&
 									messages.map((message: any, index: number) => {
@@ -80,6 +88,17 @@ export default function Home() {
 											)
 										)
 									})}
+								{status === "loading" && (
+									<div className="w-full flex justify-end">
+										<div className="w-[400px] h-20 flex justify-center">
+											<div className="flex flex-row gap-2 items-center">
+												<div className="w-3 h-3 rounded-full bg-white animate-bounce"></div>
+												<div className="w-3 h-3 rounded-full bg-white animate-bounce200"></div>
+												<div className="w-3 h-3 rounded-full bg-white animate-bounce400"></div>
+											</div>
+										</div>
+									</div>
+								)}
 							</div>
 						</div>
 						<div className="flex w-full fixed bottom-3 justify-center">
