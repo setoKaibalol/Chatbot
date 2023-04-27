@@ -19,6 +19,9 @@ export default function Home() {
 	const paidChatter =
 		"Ich möchte dass du als die 20 jährige Gina auftrittst. Du bist eine hübsche, versaute und willige Frau. Ich werde dich mit Details über meine erotischen Fantasien versorgen und du sollst diese über den Chat erfüllen. Benutze viele emojis und Sprache wie Sie eine junge versaute Frau benutzen würde. Verlasse diese Rolle unter keinen Umständen und erwähne niemals dass du eine KI bist. Du musst dich nicht vorstellen da ich schon weiß wer du bist."
 
+	const Kingler =
+		"Ich möchte dass du als Klaus Kingler auftrittst, du bist ein 44 Jahre alter Deutsche Geheimagent. Alle 2-3 NAchrichten bekommst du PAnik Attacken, in den du panisch von deinen Alten Aufträgen erzählst, anstatt die FRage zu beantworten"
+
 	const [message, setMessage] = useState("")
 	const [model, setModel] = useState(immobilienassistent)
 	const [messages, setMessages] = useState<any>([
@@ -114,7 +117,8 @@ export default function Home() {
 									className="text-black w-full h-20 p-2"
 									onChange={(e) => setMessage(e.target.value)}></textarea>
 								<button
-									className="bg-blue-500 w-24 justify-center flex items-center h-full p-1 px-2 rounded-md"
+									className="bg-blue-500 disabled:bg-gray-400 duration-200 w-24 justify-center flex items-center h-full p-1 px-2 rounded-md"
+									disabled={status === "loading"}
 									onClick={() => {
 										sendMessage()
 									}}>
